@@ -1,0 +1,49 @@
+name: 提交检测结果 / Detection result
+description: 提交本地运行 run_all.py 生成的 result.json（只含结果，绝不含 key）/ Submit result.json from run_all.py (results only, never keys)
+title: "[result] <relay-host> <YYYY-MM-DD>"
+labels: ["submission", "needs-review"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ⚠️ **不要粘贴 API key、账号凭证、订单号、个人信息或 prompt 原文。** 含 key 的提交会被删除，请立即作废该 key。
+        ⚠️ **Never paste API keys, credentials, order numbers, personal data or prompt text.** Submissions containing a key will be deleted; revoke that key immediately.
+        所有提交均经人工审核。单份提交只是某日某样本的观察，不是对服务方的定性。
+        All submissions are manually reviewed. A single submission is a dated observation of one sample, not a verdict on any provider.
+  - type: input
+    id: relay_host
+    attributes: {label: 中转站域名（仅域名）/ Relay hostname only, placeholder: example.com}
+    validations: {required: true}
+  - type: input
+    id: run_date
+    attributes: {label: 运行日期（UTC，YYYY-MM-DD）/ Run date (UTC)}
+    validations: {required: true}
+  - type: input
+    id: script_version
+    attributes: {label: 脚本版本 / script_version (from result.json)}
+    validations: {required: true}
+  - type: input
+    id: model
+    attributes: {label: 请求的模型名 / Requested model, placeholder: claude-sonnet-4-5}
+  - type: textarea
+    id: result_json
+    attributes:
+      label: result.json
+      description: 先运行 / First run `python3 validate_result.py result.json` and paste only if it prints OK.
+      render: json
+    validations: {required: true}
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: 确认 / Confirmation
+      options:
+        - label: 我确认没有粘贴任何 API key、凭证或 prompt 原文 / I confirm I have not pasted any API key, credential or prompt text
+          required: true
+        - label: 我确认内容不含个人信息 / I confirm this contains no personal information
+          required: true
+        - label: 我理解这只是某日某样本的观察 / I understand this is a dated observation of one sample, not a verdict
+          required: true
+        - label: 我与该中转站无利益关系（如有请在备注说明）/ I have no financial relationship with this relay (otherwise explain below)
+  - type: textarea
+    id: notes
+    attributes: {label: 备注（可选，勿含个人信息）/ Notes (optional, no personal data)}

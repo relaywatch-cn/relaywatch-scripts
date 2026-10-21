@@ -1,0 +1,51 @@
+name: 站方回应 / 更正 (Right of reply / correction)
+description: 被记录的中转站运营方，或任何发现记录有误的人，可在此申请更正、补充说明或下架。
+title: "[回应/更正] <中转站名称> <档案条目 id>"
+labels: ["right-of-reply"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        我们会在 72 小时内复核。回应原文会与证据并列展示；经核实有误的记录会更正或下架，并保留更正记录。
+        **请勿粘贴任何 API key、凭证、用户个人信息或订单隐私。**
+  - type: input
+    id: entry
+    attributes:
+      label: 档案条目 id 或页面链接
+      placeholder: 例如 2026-08-10-yiapi 或 https://<站点>/archive/#...
+    validations:
+      required: true
+  - type: dropdown
+    id: role
+    attributes:
+      label: 你的身份
+      options:
+        - 该中转站运营方
+        - 原始帖子/报告作者
+        - 其他（第三方）
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: 请求类型
+      options:
+        - 事实更正
+        - 补充站方说明（与证据并列展示）
+        - 申请下架
+    validations:
+      required: true
+  - type: textarea
+    id: statement
+    attributes:
+      label: 说明与证据
+      description: 请给出可核对的依据（公开链接、日期、截图说明等）。
+    validations:
+      required: true
+  - type: checkboxes
+    id: ack
+    attributes:
+      label: 确认
+      options:
+        - label: 我没有粘贴任何 key、凭证或他人个人信息。
+          required: true

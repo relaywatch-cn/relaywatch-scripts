@@ -42,6 +42,83 @@ Usage is shown above. Checks: thinking-signature presence/format (optional repla
 
 **Tests** (no real API calls; local mock server): `python3 -m unittest discover -s tests -v`
 
+## Why / What / How to use / Neutrality & disclosure / Right of reply
+
+### Why
+
+Third-party Claude API relays (中转站) sit between you and Anthropic. Users often can’t tell whether a relay is serving the claimed model, billing usage/cache honestly, or swapping in a cheaper path. Public vendor lists are large; independent, dated evidence is scarce. RelayWatch exists to make checks **reproducible and open**, not to sell tokens or rank affiliates.
+
+### What
+
+- **Site:** [https://relay-watch.com](https://relay-watch.com) — methodology, real-cost calculator, scam/outage-style archive (dated + sourced; **0 named relay entries** live as of launch), submit flow, right of reply.  
+- **Scripts (this repo):** MIT, Python 3 stdlib only. Checks: thinking-signature, protocol/SSE format, usage & Prompt Cache billing, randomized daily prompts, speed/repeat. Launched publicly **2026-10-19**; site **2026-10-21**.  
+- Named relay pages appear only after our own reproducible tests with raw output and human review (“On &lt;date&gt; we measured…”), or ≥3 independent submissions.
+
+### How to use
+
+```bash
+export RELAY_BASE_URL=https://<your-relay>
+export RELAY_API_KEY=<your key>          # env only — never paste into Issues
+export RELAY_CONFIRM_SPEND=yes           # required; default is no network spend
+python3 run_all.py
+python3 validate_result.py result.json
+```
+
+Optional: `OFFICIAL_ANTHROPIC_KEY` (signature replay), `EXPECTED_INPUT_TOKENS`, `RELAY_MIN_TPS` / `RELAY_MAX_TPS`. Local mock tests: `python3 -m unittest discover -s tests -v` (no real API calls).
+
+A single `result.json` is a **dated observation of one sample**, not a verdict on any provider.
+
+### Neutrality & disclosure
+
+- No affiliate, referral, or paid placement links — ever.  
+- We do not sell tokens, resell API access, or recommend relays.  
+- We do not collect or store API keys; submissions are results only.
+
+**Disclosure (English):**  
+The same owner is preparing a Claude Code relay resale pilot (not live, not charging); this site does not review or recommend it.
+
+**披露（中文，与 /about/ 原句一致）：**  
+同一所有者在筹备一个 Claude Code 中转转售试点（尚未上线、未收费），本站不为它做评测或推荐。
+
+### Right of reply
+
+Operators (or anyone) can request correction, clarification, or takedown via the GitHub issue template:  
+https://github.com/relaywatch-cn/relaywatch-scripts/issues/new?template=right-of-reply.yml  
+Also linked from https://relay-watch.com/reply/ . We aim to review within 72 hours; responses are shown alongside the record when published.
+
+---
+
+## 中文
+
+### 为什么
+
+第三方 Claude API 中转站介于用户与 Anthropic 之间。用户往往难以判断中转是否按声称的模型服务、usage/缓存是否如实计费、是否换了更便宜的线路。公开榜单很多，带日期、可复现的独立证据很少。RelayWatch（中转鉴）要做的是**可复现、开源的检测**，不是卖 token，也不靠返佣排名。
+
+### 做什么
+
+- **站点：** https://relay-watch.com — 检测方法、真实成本计算器、跑路/停服类档案（带日期与来源；**上线时 0 条点名中转站条目**）、提交入口、站方回应。  
+- **本仓库脚本：** MIT，仅 Python 3 标准库。检测：thinking 签名、协议/SSE 格式、usage 与 Prompt Cache 计费、每日随机能力题、速度/重复。仓库公开 **2026-10-19**；站点 **2026-10-21**。  
+- 点名某家中转站须有我们自己的可复现测试（含原始输出）并经人工审核（措辞：「某日我们测得…」），或 ≥3 份独立提交。
+
+### 怎么用
+
+见上方 bash 示例。默认零花费；只有设置 `RELAY_CONFIRM_SPEND=yes` 才会发真实请求。**绝不把 API key 贴进 Issue 或站点。** 单次结果只是「某日某样本的观察」，不是对站方的定性。
+
+### 中立与披露
+
+- 永不接受返佣、推广或付费排名。  
+- 不卖 token、不转售、不推荐任何中转站。  
+- 不收集、不存储 API key；提交只收结果。
+
+**披露原句：** 同一所有者在筹备一个 Claude Code 中转转售试点（尚未上线、未收费），本站不为它做评测或推荐。
+
+### 站方回应
+
+https://github.com/relaywatch-cn/relaywatch-scripts/issues/new?template=right-of-reply.yml  
+或站点 https://relay-watch.com/reply/ 。目标 72 小时内复核。
+
+---
+
 ## 致谢 / Credits
 方法思路参考了社区工具 [veridrop](https://github.com/canarybyte/veridrop)（AGPL-3.0）和 RelayScope（GitHub 公开仓库，未声明开源许可）；未复制任何代码。
 
